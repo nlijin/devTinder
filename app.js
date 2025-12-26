@@ -13,7 +13,8 @@ app.post("/signup", async (req, res) => {
     await user.save();
     res.send("User signed up successfully");
   } catch (error) {
-    res.status(400).send("Error signing up user");
+    console.log("Error signing up user", error);
+    res.status(400).send("Error signing up user", error);
   }
 });
 
@@ -48,9 +49,11 @@ app.get("/getAllUsers", async (req, res) => {
 //Delete user by emailId
 app.delete("/user", async (req, res) => {
   const userEmail = req.body.emailId;
+  console.log(userEmail);
 
   try {
     const result = await User.deleteOne({ emailId: userEmail });
+    console.log(result);
     if (result.deletedCount === 0) {
       res.status(404).send("user not found");
     } else {
